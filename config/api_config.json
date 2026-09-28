@@ -1,0 +1,85 @@
+{
+  "catalog": "workspace",
+  "bronze_schema": "bronze",
+  "silver_schema": "silver",
+  "config_schema": "config",
+  "state_table": "api_ingestion_state",
+  "sources": [
+    {
+      "source_name": "github_commits",
+      "enabled": true,
+      "api_url": "https://api.github.com/repos/apache/spark/commits",
+      "method": "GET",
+      "auth": {
+        "type": "none"
+      },
+      "headers": {
+        "User-Agent": "datatheta-api-accelerator",
+        "Accept": "application/vnd.github+json"
+      },
+      "record_path": null,
+      "pagination": {
+        "type": "page",
+        "page_param": "page",
+        "size_param": "per_page",
+        "page_size": 100
+      },
+      "target_table": "silver.github_commits",
+      "primary_key": "sha",
+      "load_type": "incremental",
+      "incremental_column": "commit.committer.date",
+      "incremental_param": "since",
+      "initial_watermark": "2026-09-14T00:00:00Z",
+      "timeout_seconds": 60,
+      "max_retries": 3
+    },
+    {
+      "source_name": "openweather_forecast",
+      "enabled": true,
+      "api_url": "https://api.openweathermap.org/data/2.5/forecast",
+      "method": "GET",
+      "auth": {
+        "type": "api_key",
+        "location": "query",
+        "key_name": "appid",
+        "secret_scope": "api_integration",
+        "secret_key": "openweather_api_key"
+      },
+      "params": {
+        "q": "Chennai,IN",
+        "units": "metric"
+      },
+      "record_path": "list",
+      "pagination": {
+        "type": "none"
+      },
+      "target_table": "silver.weather_forecast",
+      "primary_key": "dt",
+      "load_type": "full",
+      "incremental_column": "dt_txt",
+      "timeout_seconds": 60,
+      "max_retries": 3
+    },
+    {
+      "source_name": "exchange_rates",
+      "enabled": true,
+      "api_url": "https://v6.exchangerate-api.com/v6/{secret}/latest/USD",
+      "method": "GET",
+      "auth": {
+        "type": "url",
+        "secret_scope": "api_integration",
+        "secret_key": "exchangerate_api_key"
+      },
+      "record_path": null,
+      "pagination": {
+        "type": "none"
+      },
+      "target_table": "silver.exchange_rates",
+      "primary_key": "time_last_update_unix",
+      "load_type": "full",
+      "incremental_column": "time_last_update_unix",
+      "timeout_seconds": 60,
+      "max_retries": 3
+    }
+  ]
+}
