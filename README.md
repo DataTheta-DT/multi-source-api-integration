@@ -101,6 +101,6 @@ To add another API, add a new configuration block instead of creating a new pipe
 
 | Library | License | Source |
 |---|---|---|
-| Apache Spark / PySpark | Apache License 2.0 | github.com/apache/spark |
-| Delta Lake | Apache License 2.0 | github.com/delta-io/delta |
-| Requests | Apache License 2.0 | github.com/psf/requests |
+| Apache Spark / PySpark | Apache License 2.0 | [Apache Spark](https://github.com/apache/spark) |
+| Delta Lake | Apache License 2.0 | [Delta Lake](https://github.com/delta-io/delta) |
+| Requests | Apache License 2.0 | [Requests](https://github.com/psf/requests) |
